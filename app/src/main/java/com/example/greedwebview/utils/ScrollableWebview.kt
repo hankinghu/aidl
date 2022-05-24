@@ -28,6 +28,7 @@ class ScrollableWebview @JvmOverloads constructor(
 
     //Y轴本次down点击的位置
     private var startY = 0
+    private var startX = 0
 
     //Y轴上次move事件点击的位置
     private var lastY = 0
@@ -71,11 +72,16 @@ class ScrollableWebview @JvmOverloads constructor(
         when (ev.action) {
             MotionEvent.ACTION_DOWN -> {
                 startY = ev.y.toInt()
+                startX = ev.x.toInt()
             }
             MotionEvent.ACTION_MOVE -> {
                 if (canScroll) {
                     currentY = ev.y.toInt()
                     offset = currentY - lastY
+                    if (abs(offset) < abs(startX - ev.x.toInt())) {
+                        //横向滑动比竖向滑动多，直接返回，事件给子view处理
+                        return super.onTouchEvent(ev)
+                    }
                     curOffset = (offset * scrollFactor).toInt()
                     lastY = currentY
                     if (currentY != startY && 0 < abs(offset) && abs(offset) < scrollIv) {
@@ -118,7 +124,7 @@ class ScrollableWebview @JvmOverloads constructor(
         override fun getInterpolation(input: Float): Float {
             val minus10 = -10
             val int4 = 4
-            val factor=4
+            val factor = 4
             return (2.0.pow((minus10 * input).toDouble()) * sin((input - factor / int4) * (2 * Math.PI) / factor) + 1).toFloat()
         }
     }
