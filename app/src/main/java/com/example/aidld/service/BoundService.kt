@@ -2,10 +2,12 @@ package com.example.aidld.service
 
 import android.app.Service
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Binder
 import android.os.HandlerThread
 import android.os.IBinder
 import android.util.Log
+import android.widget.Toast
 import com.example.aidld.MyImplementor
 
 /**
@@ -18,6 +20,7 @@ class BoundService : Service() {
     private val TAG: String = "BoundService"
     private var binder: Binder = MyImplementor()
     override fun onBind(intent: Intent?): IBinder {
+        Log.d(TAG, "onBind")
         return binder
     }
 
@@ -48,8 +51,18 @@ class BoundService : Service() {
 
     override fun onRebind(intent: Intent?) {
         super.onRebind(intent)
-        Log.d(TAG, "onRebind")
+        Log.d(TAG, "onRebind intent $intent")
 
+    }
+
+    override fun stopService(name: Intent?): Boolean {
+        Log.d(TAG, "stopService name $name")
+        return super.stopService(name)
+    }
+
+    override fun onUnbind(intent: Intent?): Boolean {
+        Log.d(TAG, "onUnbind intent $intent")
+        return true
     }
 
     //创建一个binder,内部类

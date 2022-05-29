@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">AidlD</string>
     <string name="launch">启动页</string>
+    <string name="notification_title">Hello world</string>
+    <string name="notification_message">good study day day up</string>
+    <string name="ticker_text">hono</string>
 </resources>

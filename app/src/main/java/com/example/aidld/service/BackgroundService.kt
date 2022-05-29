@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
+import android.widget.Toast
 
 /**
  *
@@ -32,7 +33,8 @@ class BackgroundService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(TAG,"onStartCommand intent $intent startid $startId  flags $flags")
-        return super.onStartCommand(intent, flags, startId)
+        Toast.makeText(this,"this is toast", Toast.LENGTH_LONG).show()
+        return START_STICKY
 
     }
 
